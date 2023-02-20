@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: go_course_web
+      MYSQL_DATABASE: database-keep-notes
     ports:
       - "3320:3306"
     volumes:
