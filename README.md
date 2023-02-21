@@ -47,11 +47,36 @@ Response: 200
 
 ```json
 {
-    "status":200,
-    "data":[
-
-    ]
-
+    "status": 200,
+    "data": [
+        {
+            "id": "0e363dc4-1135-4be4-8c05-129e927bc717",
+            "title": "specific",
+            "body": "spe body notes",
+            "created_at": "2023-02-19T23:40:54.326-06:00",
+            "updated_at": "2023-02-19T23:40:54.326-06:00"
+        },
+        {
+            "id": "b9f4f231-a542-4605-b11b-c4aa5b724aa0",
+            "title": "specific",
+            "body": "Example body notes",
+            "created_at": "2023-02-19T23:40:21.976-06:00",
+            "updated_at": "2023-02-19T23:40:21.976-06:00"
+        },
+        {
+            "id": "8f9dc431-a130-4051-8afa-b92559facde3",
+            "title": "Exaple Title",
+            "body": "Example body notes",
+            "created_at": "2023-02-19T23:35:05.985-06:00",
+            "updated_at": "2023-02-19T23:35:05.985-06:00"
+        }
+    ],
+    "meta": {
+        "total_count": 22,
+        "per_page": 3,
+        "page_count": 8,
+        "page": 1
+    }
 }
 ```
 
@@ -64,11 +89,12 @@ Response: 200
 
 ```json
 {
-    "status":200,
-    "data":{
-        
+    "status": 200,
+    "data": {
+        "id": "0e363dc4-1135-4be4-8c05-129e927bc717",
+        "title": "specific",
+        "body": "spe body notes"
     }
-
 }
 ```
 
@@ -92,13 +118,11 @@ Request:
 
 ```json
 {
-    "status":201,
-    "data":
-    {
-    "id":"2c1003cb-dd3a-4dd5-a498-681e7ef5fe33",
-    "title":"Exaple Title",
-    "body":"Example body notes",
-    "created_at":"2021/12/19"
+    "status": 201,
+    "data": {
+        "id": "0dbf0064-e593-4716-a27c-1cd293d832bb",
+        "title": "Exaple Title",
+        "body": "Example body notes"
     }
 }
 ```
