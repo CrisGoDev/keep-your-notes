@@ -1,19 +1,21 @@
 package note
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"github.com/CrisGoDev/keep-your-notes/domain"
 	"gorm.io/gorm"
 )
 
 type Repository interface {
-	// Create(user *Note) error
-	// GetAll(filters Filters, ofsset int, limit int) ([]Note, error)
-	Get() (*[]domain.Note, error)
-	// Delete(id string) error
-	// Udpate(id string, FirstName *string, LastName *string, Email *string, Phone *string) error
-	// Count(filters Filters) (int, error)
+	Create(note *domain.Note) error
+	GetAll(filters Filters, ofsset int, limit int) ([]domain.Note, error)
+	Get(id string) (*domain.Note, error)
+	Delete(id string) error
+	Udpate(id string, title *string, body *string) error
+	Count(filters Filters) (int, error)
 }
 
 type repo struct {
@@ -29,129 +31,115 @@ func NewRepo(log *log.Logger, db *gorm.DB) Repository {
 	}
 }
 
-// func (repo *repo) Create(user *Note) error {
+func (repo *repo) Create(note *domain.Note) error {
 
-// 	if err := repo.db.Create(user).Error; err != nil {
-// 		repo.log.Println(err)
-// 		return err
-// 	}
+	if err := repo.db.Create(note).Error; err != nil {
+		repo.log.Println(err)
+		return err
+	}
 
-// 	repo.log.Println("user creates with the id:", user.Id)
+	repo.log.Println("note created with the id:", note.Id)
 
-// 	return nil
-// }
+	return nil
+}
 
-// func (repo *repo) GetAll(filters Filters, ofsset int, limit int) ([]Note, error) {
-// 	var users []Note
+func (repo *repo) GetAll(filters Filters, ofsset int, limit int) ([]domain.Note, error) {
+	var users []domain.Note
 
-// 	db := repo.db.Model(&users)
-// 	db = applyFilters(db, filters)
-// 	db = db.Limit(limit).Offset(ofsset)
+	db := repo.db.Model(&users)
+	db = applyFilters(db, filters)
+	db = db.Limit(limit).Offset(ofsset)
 
-// 	result := db.Order("created_at desc").Find(&users)
-
-// 	if result.Error != nil {
-// 		repo.log.Println(result.Error)
-// 		return nil, result.Error
-// 	}
-
-// 	return users, nil
-// }
-
-// func (repo *repo) Get(id string) (*note.Note, error) {
-// 	user := note.Note{Id: id}
-
-// 	result := repo.db.First(&user)
-
-// 	if result.Error != nil {
-// 		repo.log.Println(result.Error)
-// 		return nil, result.Error
-// 	}
-
-// 	return &user, nil
-// }
-
-func (repo *repo) Get() (*[]domain.Note, error) {
-	var notes []domain.Note
-
-	result := repo.db.Model(&notes).Order("created_at desc").Find(&notes)
+	result := db.Order("created_at desc").Find(&users)
 
 	if result.Error != nil {
 		repo.log.Println(result.Error)
 		return nil, result.Error
 	}
 
-	return &notes, nil
+	return users, nil
 }
 
-// func (repo *repo) Delete(id string) error {
-// 	user := Note{Id: id}
+func (repo *repo) Get(id string) (*domain.Note, error) {
+	note := domain.Note{Id: id}
 
-// 	result := repo.db.Delete(&user)
+	result := repo.db.First(&note)
 
-// 	if result.Error != nil {
-// 		repo.log.Println(result.Error)
-// 		return result.Error
-// 	}
+	if result.Error != nil {
+		repo.log.Println(result.Error)
+		return nil, result.Error
+	}
 
-// 	return nil
-// }
+	return &note, nil
+}
 
-// func (repo *repo) Udpate(id string, FirstName *string, LastName *string, Email *string, Phone *string) error {
-// 	values := make(map[string]interface{})
+func (repo *repo) Delete(id string) error {
+	user := domain.Note{Id: id}
 
-// 	if FirstName != nil {
-// 		values["first_name"] = *FirstName
-// 	}
+	result := repo.db.Delete(&user)
 
-// 	if LastName != nil {
-// 		values["last_name"] = *LastName
-// 	}
+	if result.Error != nil {
+		repo.log.Println(result.Error)
+		return result.Error
+	}
 
-// 	if Email != nil {
-// 		values["email"] = *Email
-// 	}
+	return nil
+}
 
-// 	if Phone != nil {
-// 		values["phone"] = *Phone
-// 	}
+func (repo *repo) Udpate(id string, title *string, body *string) error {
 
-// 	if err := repo.db.Model(&Note{}).Where("id = ", id).Updates(values).Error; err != nil {
-// 		return err
-// 	}
+	note := domain.Note{Id: id}
+	if err := repo.db.First(&note).Error; err != nil {
+		return err
+	}
 
-// 	return nil
-// }
+	values := make(map[string]interface{})
 
-// func applyFilters(tx *gorm.DB, filters Filters) *gorm.DB {
+	if title != nil {
+		values["title"] = *title
+	}
 
-// 	if filters.FirstName != "" {
-// 		filters.FirstName = fmt.Sprintf("%%%s%%", strings.ToLower(filters.FirstName))
-// 		tx = tx.Where("lower(first_name) like ?", filters.FirstName)
+	if body != nil {
+		values["body"] = *body
+	}
 
-// 	}
+	if err := repo.db.Model(&domain.Note{}).Where("id = ?", id).Updates(values).Error; err != nil {
 
-// 	if filters.LastName != "" {
-// 		filters.LastName = fmt.Sprintf("%%%s%%", strings.ToLower(filters.LastName))
-// 		tx = tx.Where("lower(last_name) Like ?", filters.LastName)
+		repo.log.Println("Error on repository", err.Error())
+		return err
+	}
 
-// 	}
+	return nil
+}
 
-// 	return tx
-// }
+func applyFilters(tx *gorm.DB, filters Filters) *gorm.DB {
 
-// func (repo *repo) Count(filters Filters) (int, error) {
-// 	var count int64
+	if filters.Body != "" {
+		filters.Body = fmt.Sprintf("%%%s%%", strings.ToLower(filters.Body))
+		tx = tx.Where("lower(body) like ?", filters.Body)
 
-// 	var users []Note
+	}
 
-// 	db := repo.db.Model(&users)
-// 	db = applyFilters(db, filters)
+	if filters.Title != "" {
+		filters.Title = fmt.Sprintf("%%%s%%", strings.ToLower(filters.Title))
+		tx = tx.Where("lower(title) Like ?", filters.Title)
 
-// 	if err := db.Count(&count).Error; err != nil {
-// 		return 0, err
-// 	}
+	}
 
-// 	repo.log.Println("Numero de todos los registros", count)
-// 	return int(count), nil
-// }
+	return tx
+}
+
+func (repo *repo) Count(filters Filters) (int, error) {
+	var count int64
+
+	var users []domain.Note
+
+	db := repo.db.Model(&users)
+	db = applyFilters(db, filters)
+
+	if err := db.Count(&count).Error; err != nil {
+		return 0, err
+	}
+
+	return int(count), nil
+}

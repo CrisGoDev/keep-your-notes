@@ -25,9 +25,14 @@ func main() {
 	}
 
 	noteRepo := note.NewRepo(l, db)
-	noteEnd := note.MakeEndpoint(noteRepo)
+	noteService := note.NewService(l, noteRepo)
+	noteEnd := note.MakeEndpoint(noteService)
 
-	router.HandleFunc("/notes", noteEnd.Get).Methods("GET")
+	router.HandleFunc("/notes", noteEnd.GetAll).Methods("GET")
+	router.HandleFunc("/notes", noteEnd.Create).Methods("POST")
+	router.HandleFunc("/notes/{id}", noteEnd.Update).Methods("PATCH")
+	router.HandleFunc("/notes/{id}", noteEnd.Delete).Methods("DELETE")
+	router.HandleFunc("/notes/{id}", noteEnd.Get).Methods("GET")
 
 	port, err := boostrap.GetPort()
 
