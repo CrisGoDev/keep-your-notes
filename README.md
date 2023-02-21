@@ -11,6 +11,9 @@ This is an application focused on being able to manage notes that will be stored
 3. Execute `docker compose up -d`
 4. please create a file **.env** and use the variable specified on **.env.example**
 5. Execute ```go run main.go```
+(Note)
+### if you are having problem to run locally 
+please try to create the build again and execute `docker compose up -d --remove-orphans`
 
 now you can use the endpoints documented, with the base url ```http://localhost:8000```
 

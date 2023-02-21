@@ -1,13 +1,13 @@
 version : "3.5"
 services:
-  go-course-web:
-    container_name: go-course-web
+  go-container-database:
+    container_name: go-container-database
     build:
       context: "./.docker/mysql"
       dockerfile: Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database-keep-notes
+      MYSQL_DATABASE: keep_note_database
     ports:
       - "3320:3306"
     volumes:
