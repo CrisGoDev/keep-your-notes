@@ -8,9 +8,10 @@ This is an application focused on being able to manage notes that will be stored
 # How to start the project locally?
 1. Open the terminal
 2. Execute `docker compose build`
-3. Execute `docker compose up -d`
-4. please create a file **.env** and use the variable specified on **.env.example**
-5. Execute ```go run main.go```
+3. Execute `docker pull mysql`
+4. Execute `docker compose up -d`
+5. please create a file **.env** and use the variable specified on **.env.example**
+6. Execute ```go run main.go```
 
 now you can use the endpoints documented, with the base url ```http://localhost:8000```
 
