@@ -11,6 +11,9 @@ This is an application focused on being able to manage notes that will be stored
 3. Execute `docker compose up -d`
 4. please create a file **.env** and use the variable specified on **.env.example**
 5. Execute ```go run main.go```
+(Note)
+### if you are having problem to run locally 
+please try to create the build again and execute `docker compose up -d --remove-orphans`
 
 now you can use the endpoints documented, with the base url ```http://localhost:8000```
 
@@ -21,17 +24,24 @@ https://github.com/CrisGoDev/keep-your-notes , which is a
 REST api that can access one of the following objects:
 - Notes - A User can create a Notes
 
+## Documentation Postman
+ There is a file called *keep-notes.postman_collection* you can import this collection
+ in this collection two variables to use **local** and **server** are configured.
+ - you can swap between it using {{local}} and {{server}} by default it is {{server}}.
+ on Postman ![Postman](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*_Hc7qFt6iJqNGq1RmnCiMg@2x.png "postman")
+
 ## Endpoints
 
 All endpoints documented below are relative to the following base urls:
 
-Development: http://keepyournote/api/v1
+Development: https://keep-notes-xx4n.onrender.com
 
 and the database is deployed in aws
+![Aws rds](https://d1by4p17n947rt.cloudfront.net/icon/1d374ed2a6bcf601d7bfd4fc3dfd3b5d-c9f69416d978016b3191175f35e59226.svg "aws rds")
 
 ## Notes
 
-### GET/Notes
+### GET/notes
 
 Get list of "Notes".
 
@@ -81,7 +91,7 @@ Response: 200
 ```
 
 
-### GET/Notes/:id
+### GET/notes/:id
 
 Get the "Notes" info.
 
@@ -98,7 +108,7 @@ Response: 200
 }
 ```
 
-### POST/Notes
+### POST/notes
 Create a new note account.
 
 Request:
@@ -127,7 +137,7 @@ Request:
 }
 ```
 
-### PATCH/Notes/:id
+### PATCH/notes/:id
 Update notes.
  At least you must specifie a field
 
