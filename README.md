@@ -50,7 +50,7 @@ in the project are configure some unit test to execute this, you can run `go tes
 
 All endpoints documented below are relative to the following base urls:
 
-Development: https://keep-notes-xx4n.onrender.com
+Development: http://ec2-3-22-22-79.us-east-2.compute.amazonaws.com
 
 and the database is deployed in aws
 ![Aws rds](https://d1by4p17n947rt.cloudfront.net/icon/1d374ed2a6bcf601d7bfd4fc3dfd3b5d-c9f69416d978016b3191175f35e59226.svg "aws rds")
