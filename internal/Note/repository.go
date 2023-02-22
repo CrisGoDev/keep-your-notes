@@ -50,7 +50,7 @@ func (repo *repo) GetAll(filters Filters, ofsset int, limit int) ([]domain.Note,
 	db = applyFilters(db, filters)
 	db = db.Limit(limit).Offset(ofsset)
 
-	result := db.Order("created_at desc").Find(&users)
+	result := db.Order(filters.OrderBy + " " + filters.Order).Find(&users)
 
 	if result.Error != nil {
 		repo.log.Println(result.Error)

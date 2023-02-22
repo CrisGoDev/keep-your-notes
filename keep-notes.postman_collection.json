@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c753c2f1-08f3-4b35-8fe9-d05b3c7a9806",
+		"_postman_id": "4330bbf2-f6da-4c65-93d9-9ec1175763fe",
 		"name": "keep-notes",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15233319"
@@ -37,7 +37,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\":\"aadasfa\",\r\n    \"body\":\"spe body notesjfgsdhgjhsd\"\r\n}",
+					"raw": "{\r\n    \"title\":\"aadasfa\",\r\n    \"body\":\"aaaaaaa notes\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
