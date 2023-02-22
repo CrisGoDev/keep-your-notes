@@ -27,6 +27,15 @@ https://github.com/CrisGoDev/keep-your-notes , which is a
 REST api that can access one of the following objects:
 - Notes - A User can create a Notes
 
+# Pagination
+The endpoint **get all** has the query parameter
+
+| Parameter | Values posible |Default|Description|
+| ----------- | ----------- |-----------|-----------|
+| *page* | integer numbers | 1|the page you want|
+| *limit* | integer numbers | 15|the quantity of records|
+
+
 ## Documentation Postman
  There is a file called *keep-notes.postman_collection* you can import this collection
  in this collection two variables to use **local** and **server** are configured.
@@ -52,13 +61,14 @@ and the database is deployed in aws
 Get list of "Notes".
 
 Get Parameters supports:
-- *limit* and *offset* get parameters. See
+- *limit* and *paget* get parameters. See
 heading "Pagination" above for details.
 - *title*
 - *body*
-- *created_at*
-- *updated_at*
-
+- *order*
+    - the posibles values are *asc* & *desc*
+- *order_by* 
+    - the posibles values are *title*, *body*, *id*,*created_at* & *updated_at*
 Response: 200
 
 ```json
@@ -66,11 +76,46 @@ Response: 200
     "status": 200,
     "data": [
         {
-            "id": "0e363dc4-1135-4be4-8c05-129e927bc717",
-            "title": "specific",
-            "body": "spe body notes",
-            "created_at": "2023-02-19T23:40:54.326-06:00",
-            "updated_at": "2023-02-19T23:40:54.326-06:00"
+            "id": "25da7aa4-0d99-4e98-be4c-ef1a3f8a56da",
+            "title": "Updated Again",
+            "body": "Updated again",
+            "created_at": "2023-02-20T14:09:47.086-06:00",
+            "updated_at": "2023-02-20T20:35:12.042-06:00"
+        },
+        {
+            "id": "f217d9f3-400c-41fd-ab48-3d83c219b409",
+            "title": "pruebasasas",
+            "body": "spe body notesjfgsdhgjhsd",
+            "created_at": "2023-02-20T14:06:26.206-06:00",
+            "updated_at": "2023-02-20T14:06:26.206-06:00"
+        },
+        {
+            "id": "c29a363e-d9a1-4603-a586-837622eff4cb",
+            "title": "aadasfa",
+            "body": "spe body notesjfgsdhgjhsd",
+            "created_at": "2023-02-22T04:24:29.726-06:00",
+            "updated_at": "2023-02-22T04:24:29.726-06:00"
+        },
+        {
+            "id": "537ae82f-1b45-4708-8384-4180a5d72534",
+            "title": "Delete * from where = true",
+            "body": "spe body notesjfgsdhgjhsd",
+            "created_at": "2023-02-20T14:06:34.242-06:00",
+            "updated_at": "2023-02-20T14:06:34.242-06:00"
+        },
+        {
+            "id": "ab589771-5cc4-48cc-a7f8-ff2ff1b0912c",
+            "title": "Exaple Title",
+            "body": "Example body notes",
+            "created_at": "2023-02-19T23:34:38.635-06:00",
+            "updated_at": "2023-02-19T23:34:38.635-06:00"
+        },
+        {
+            "id": "a405faa6-354c-4393-9006-45c94deac9a5",
+            "title": "Exaple Title",
+            "body": "Example body notes",
+            "created_at": "2023-02-19T23:35:03.474-06:00",
+            "updated_at": "2023-02-19T23:35:03.474-06:00"
         },
         {
             "id": "b9f4f231-a542-4605-b11b-c4aa5b724aa0",
@@ -80,22 +125,40 @@ Response: 200
             "updated_at": "2023-02-19T23:40:21.976-06:00"
         },
         {
-            "id": "8f9dc431-a130-4051-8afa-b92559facde3",
+            "id": "c4e54be4-1917-4220-a7b3-27c31b8cd873",
             "title": "Exaple Title",
             "body": "Example body notes",
-            "created_at": "2023-02-19T23:35:05.985-06:00",
-            "updated_at": "2023-02-19T23:35:05.985-06:00"
+            "created_at": "2023-02-19T23:34:58.515-06:00",
+            "updated_at": "2023-02-19T23:34:58.515-06:00"
+        },
+        {
+            "id": "c86e1d30-45fe-43e7-a6b9-c10d742dae54",
+            "title": "Exaple Title",
+            "body": "Example body notes",
+            "created_at": "2023-02-19T23:34:30.564-06:00",
+            "updated_at": "2023-02-19T23:34:30.564-06:00"
+        },
+        {
+            "id": "dd295309-7683-4035-ad41-75ba99b37bd5",
+            "title": "Exaple Title",
+            "body": "Example body notes",
+            "created_at": "2023-02-19T23:34:28.072-06:00",
+            "updated_at": "2023-02-19T23:34:28.072-06:00"
         }
     ],
     "meta": {
-        "total_count": 22,
-        "per_page": 3,
-        "page_count": 8,
+        "total_count": 26,
+        "per_page": 10,
+        "page_count": 3,
         "page": 1
     }
 }
 ```
 
+- **total_count** : the quantity of records
+- **per_page** : the quantity of records per pages
+- **page_count** : the quantity of pages
+- **page** : the current page you are
 
 ### GET/notes/:id
 

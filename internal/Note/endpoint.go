@@ -3,8 +3,10 @@ package note
 import (
 	"encoding/json"
 	"net/http"
+	"reflect"
 	"strconv"
 
+	"github.com/CrisGoDev/keep-your-notes/domain"
 	"github.com/CrisGoDev/keep-your-notes/pkg/meta"
 	"github.com/gorilla/mux"
 )
@@ -49,15 +51,50 @@ func MakeEndpoint(s Service) Endpoints {
 	}
 }
 
+func fieldsOfNote() map[string]int {
+	fields := make(map[string]int)
+	t := reflect.TypeOf(domain.Note{})
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i).Tag.Get("json")
+
+		fields[field] = i + 1
+	}
+
+	return fields
+}
+
+var orders = map[string]int{
+	"asc":  1,
+	"desc": 2,
+}
+
 func makeGetAllEndpoint(s Service) Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		queryVariable := r.URL.Query()
+		fields := fieldsOfNote()
+		order := queryVariable.Get("order")
+		fieldToOrder := queryVariable.Get("order_by")
+
+		if fieldToOrder != "" && fields[fieldToOrder] < 1 {
+			w.WriteHeader(400)
+			json.NewEncoder(w).Encode(&Response{Status: 500, Err: "Incorrect field"})
+			return
+		}
+
+		if order != "" && orders[order] < 1 {
+			w.WriteHeader(400)
+			json.NewEncoder(w).Encode(&Response{Status: 500, Err: "Incorrect ordering mode"})
+			return
+		}
 
 		filters := Filters{
 			Body:      queryVariable.Get("body"),
 			Title:     queryVariable.Get("title"),
 			CreatedAt: queryVariable.Get("created_at"),
+			OrderBy:   fieldToOrder,
+			Order:     order,
 		}
 
 		limit, _ := strconv.Atoi(queryVariable.Get("limit"))

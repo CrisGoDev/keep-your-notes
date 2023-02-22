@@ -6,11 +6,27 @@ import (
 	"github.com/CrisGoDev/keep-your-notes/domain"
 )
 
+const (
+	Asc  = "asc"
+	Desc = "desc"
+)
+
+type MaritalStatus string
+
+const (
+	Single   MaritalStatus = "single"
+	Married  MaritalStatus = "married"
+	Divorced MaritalStatus = "divorced"
+	Widowed  MaritalStatus = "widowed"
+)
+
 type (
 	Filters struct {
 		Body      string
 		Title     string
 		CreatedAt string
+		OrderBy   string
+		Order     string
 	}
 
 	Service interface {
@@ -62,6 +78,14 @@ func (s service) Create(title, body string) (*domain.Note, error) {
 }
 
 func (s service) GetAll(filters Filters, offset int, limit int) ([]domain.Note, error) {
+
+	if filters.OrderBy == "" {
+		filters.OrderBy = "created_at"
+	}
+
+	if filters.Order == "" {
+		filters.Order = "asc"
+	}
 	users, err := s.repo.GetAll(filters, offset, limit)
 
 	if err != nil {
