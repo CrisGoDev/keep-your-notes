@@ -18,6 +18,7 @@ This is an application focused on being able to manage notes that will be stored
 
 ### if you are having problem to run locally 
 please try to create the build again and execute `docker compose up -d --remove-orphans`
+and try `go run main.go`
 now you can use the endpoints documented, with the base url ```http://localhost:8000```
 
 # API Documentation V1
