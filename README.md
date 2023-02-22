@@ -7,12 +7,14 @@ This is an application focused on being able to manage notes that will be stored
 
 # How to start the project locally?
 1. Open the terminal
-2. Execute `docker compose build`
-3. Execute `docker pull mysql`
+2. Execute `docker pull mysql`
+3. Execute `docker compose build`
 4. Execute `docker compose up -d`
 5. please create a file **.env** and use the variable specified on **.env.example**
 6. Execute ```go run main.go```
 (Note)
+### if you are running the api on {{ server }}
+**when making a request to an endpoint for the first time, please wait a moment.**
 
 ### if you are having problem to run locally 
 please try to create the build again and execute `docker compose up -d --remove-orphans`
@@ -30,6 +32,9 @@ REST api that can access one of the following objects:
  in this collection two variables to use **local** and **server** are configured.
  - you can swap between it using {{local}} and {{server}} by default it is {{server}}.
  on Postman ![Postman](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*_Hc7qFt6iJqNGq1RmnCiMg@2x.png "postman")
+
+## Unite test
+in the project are configure some unit test to execute this, you can run `go test -v .\pkg\meta\`
 
 ## Endpoints
 
