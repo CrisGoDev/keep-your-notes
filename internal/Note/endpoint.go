@@ -69,15 +69,21 @@ var orders = map[string]int{
 	"desc": 2,
 }
 
+var ordersBy = map[string]int{
+	"title":      1,
+	"body":       2,
+	"created_at": 3,
+}
+
 func makeGetAllEndpoint(s Service) Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		queryVariable := r.URL.Query()
-		fields := fieldsOfNote()
+
 		order := queryVariable.Get("order")
 		fieldToOrder := queryVariable.Get("order_by")
 
-		if fieldToOrder != "" && fields[fieldToOrder] < 1 {
+		if fieldToOrder != "" && ordersBy[fieldToOrder] < 1 {
 			w.WriteHeader(400)
 			json.NewEncoder(w).Encode(&Response{Status: 500, Err: "Incorrect field"})
 			return
@@ -90,11 +96,10 @@ func makeGetAllEndpoint(s Service) Controller {
 		}
 
 		filters := Filters{
-			Body:      queryVariable.Get("body"),
-			Title:     queryVariable.Get("title"),
-			CreatedAt: queryVariable.Get("created_at"),
-			OrderBy:   fieldToOrder,
-			Order:     order,
+			Body:    queryVariable.Get("body"),
+			Title:   queryVariable.Get("title"),
+			OrderBy: fieldToOrder,
+			Order:   order,
 		}
 
 		limit, _ := strconv.Atoi(queryVariable.Get("limit"))

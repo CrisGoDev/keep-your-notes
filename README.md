@@ -68,7 +68,7 @@ heading "Pagination" above for details.
 - *order*
     - the posibles values are *asc* & *desc*
 - *order_by* 
-    - the posibles values are *title*, *body*, *id*,*created_at* & *updated_at*
+    - the posibles values are *title* ,*body* & *created_at*
 Response: 200
 
 ```json

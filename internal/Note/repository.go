@@ -37,9 +37,6 @@ func (repo *repo) Create(note *domain.Note) error {
 		repo.log.Println(err)
 		return err
 	}
-
-	repo.log.Println("note created with the id:", note.Id)
-
 	return nil
 }
 
